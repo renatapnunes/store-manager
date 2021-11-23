@@ -9,9 +9,7 @@ module.exports = async (req, res, next) => {
     return next(newProduct.error);
   }
 
-  if ('errorExistingProduct' in newProduct) {
-    return next(newProduct.errorExistingProduct);
-  }
-
   return res.status(statusCode.CREATED).send(newProduct.ops[0]);
 };
+
+// id teste: 619c4f90086dd6fb74844ac5
