@@ -1,5 +1,10 @@
-const { create, findByName, findAll, findById } = require('../models/entity')('products');
 const productSchema = require('../schemas/productSchema');
+const {
+  create,
+  findByName,
+  findAll, findById,
+  updateById,
+} = require('../models/entity')('products');
 
 // O uso do Joi, aprendi olhando a documentação e através do video disponibilizado pelo Thiago Mariotto nessa thread do Slack:
 // https://trybecourse.slack.com/archives/C01DJFH0DNW/p1626113314110500
@@ -18,7 +23,6 @@ const createProduct = async (product) => {
 
 const listAllProducts = async () => {
   const productList = await findAll();
-  console.log('retorno db all', productList);
   if (!productList) return { error: 'noProduct' };
 
   return productList;
@@ -26,14 +30,26 @@ const listAllProducts = async () => {
 
 const listProductById = async (id) => {
   const product = await findById(id);
-  console.log('retorno db by id', product);
   if (!product) return { error: 'noProduct' };
 
   return product;
+};
+
+const updateProduct = async (id, newData) => {
+  const { error } = productSchema.validate(newData);
+  if (error) return { error };
+
+  let updatedProduct = await updateById(id, newData);
+  if (!updatedProduct) return { error: 'notFound' };
+
+  updatedProduct = await listProductById(id);
+
+  return updatedProduct;
 };
 
 module.exports = {
   createProduct,
   listAllProducts,
   listProductById,
+  updateProduct,
 };

@@ -19,7 +19,7 @@ module.exports = async (err, _req, res, _next) => {
     });
   }
 
-  if (err === 'noProduct') {
+  if (err === 'noProduct' || err === 'notFound') {
     return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
