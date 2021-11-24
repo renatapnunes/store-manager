@@ -3,6 +3,7 @@ const findByNameModel = require('./findByName');
 const findByIdModel = require('./findById');
 const findAllModel = require('./findAll');
 const updateByIdModel = require('./updateById');
+const deleteByIdModel = require('./deleteById');
 
 module.exports = (collection) => ({
   create: async (entity) => createModel(collection, entity),
@@ -10,4 +11,5 @@ module.exports = (collection) => ({
   findById: async (id) => findByIdModel(collection, id),
   findAll: async () => findAllModel(collection),
   updateById: async (id, newData) => updateByIdModel(collection, id, newData),
+  deleteById: async (id) => deleteByIdModel(collection, id),
 });

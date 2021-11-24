@@ -4,9 +4,10 @@ const {
   findByName,
   findAll, findById,
   updateById,
+  deleteById,
 } = require('../models/entity')('products');
 
-// O uso do Joi, aprendi olhando a documentação e através do video disponibilizado pelo Thiago Mariotto nessa thread do Slack:
+// O uso do Joi para validação, aprendi olhando a documentação e através do video disponibilizado pelo Thiago Mariotto nessa thread do Slack:
 // https://trybecourse.slack.com/archives/C01DJFH0DNW/p1626113314110500
 
 const createProduct = async (product) => {
@@ -40,11 +41,21 @@ const updateProduct = async (id, newData) => {
   if (error) return { error };
 
   let updatedProduct = await updateById(id, newData);
-  if (!updatedProduct) return { error: 'notFound' };
+  if (!updatedProduct) return { error: 'noProduct' };
 
   updatedProduct = await listProductById(id);
 
   return updatedProduct;
+};
+
+const deleteProduct = async (id) => {
+  const productDeleted = await listProductById(id);
+  if (!productDeleted) return { error: 'noProduct' };
+
+  const deletedProduct = await deleteById(id);
+  if (!deletedProduct) return { error: 'noProduct' };
+
+  return productDeleted;
 };
 
 module.exports = {
@@ -52,4 +63,5 @@ module.exports = {
   listAllProducts,
   listProductById,
   updateProduct,
+  deleteProduct,
 };
