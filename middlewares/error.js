@@ -28,6 +28,15 @@ module.exports = async (err, _req, res, _next) => {
     });
   }
 
+  if (err === 'invalidSale') {
+    return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong product ID or invalid quantity',
+      },
+    });
+  }
+
   console.log(err);
   return res.status(statusCode.INTERNAL_SERVER_ERROR).end();
 };

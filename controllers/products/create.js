@@ -1,5 +1,5 @@
-const statusCode = require('http-status-codes');
-const productService = require('../../services/productService');
+const StatusCodes = require('http-status-codes');
+const productService = require('../../services/productsService');
 
 module.exports = async (req, res, next) => {
   const product = req.body;
@@ -9,7 +9,5 @@ module.exports = async (req, res, next) => {
     return next(newProduct.error);
   }
 
-  return res.status(statusCode.CREATED).send(newProduct.ops[0]);
+  return res.status(StatusCodes.CREATED).send(newProduct.ops[0]);
 };
-
-// id teste: 619c4f90086dd6fb74844ac5

@@ -1,5 +1,5 @@
-const statusCode = require('http-status-codes');
-const productService = require('../../services/productService');
+const StatusCodes = require('http-status-codes');
+const productService = require('../../services/productsService');
 
 module.exports = async (req, res, next) => {
   const id = req.params;
@@ -13,5 +13,5 @@ module.exports = async (req, res, next) => {
   
   if ('error' in list) return next(list.error);
 
-  return res.status(statusCode.OK).send(list);
+  return res.status(StatusCodes.OK).send(list);
 };
