@@ -10,6 +10,8 @@ module.exports = (collection) => ({
   findByName: async (entity) => findByNameModel(collection, entity),
   findById: async (id) => findByIdModel(collection, id),
   findAll: async () => findAllModel(collection),
-  updateById: async (id, newData) => updateByIdModel(collection, id, newData),
+  updateProductById: async (id, newData) => updateByIdModel(collection, id, { $set: newData }),
   deleteById: async (id) => deleteByIdModel(collection, id),
+  updateSaleById: async (id, newData) =>
+    updateByIdModel(collection, id, { $set: { itensSold: newData } }),
 });

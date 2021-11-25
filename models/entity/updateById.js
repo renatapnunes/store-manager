@@ -1,11 +1,11 @@
 const { ObjectId } = require('mongodb');
 const connection = require('../connection');
 
-module.exports = async (collection, { id }, { name, quantity }) => {
-  const updateProduct = ObjectId.isValid(id)
+module.exports = async (collection, { id }, newData) => {
+  const updateEntity = ObjectId.isValid(id)
   ? (await connection()).collection(collection)
-    .updateOne({ _id: ObjectId(id) }, { $set: { name, quantity } })
+    .updateOne({ _id: ObjectId(id) }, newData)
   : null;
 
-  return updateProduct;
+  return updateEntity;
 };

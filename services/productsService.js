@@ -4,7 +4,7 @@ const {
   findByName,
   findAll,
   findById,
-  updateById,
+  updateProductById,
   deleteById,
 } = require('../models/entity')('products');
 
@@ -41,7 +41,7 @@ const updateProduct = async (id, newData) => {
   const { error } = productSchema.validate(newData);
   if (error) return { error };
 
-  let updatedProduct = await updateById(id, newData);
+  let updatedProduct = await updateProductById(id, newData);
   if (!updatedProduct) return { error: 'noProduct' };
 
   updatedProduct = await listProductById(id);

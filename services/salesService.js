@@ -4,6 +4,7 @@ const {
   create,
   findAll,
   findById,
+  updateSaleById,
 } = require('../models/entity')('sales');
 
 const checkSaleData = async (sales) => {
@@ -42,8 +43,21 @@ const listSaleById = async (id) => {
   return sale;
 };
 
+const updateSales = async (id, newData) => {
+  const salesDataChecked = await checkSaleData(newData);
+  if (!salesDataChecked) return { error: 'invalidSale' };
+
+  let updatedSale = await updateSaleById(id, newData);
+  if (!updatedSale) return { error: 'invalidSale' };
+
+  updatedSale = await listSaleById(id);
+
+  return updatedSale;
+};
+
 module.exports = {
   registerSales,
   listAllSales,
   listSaleById,
+  updateSales,
 };
