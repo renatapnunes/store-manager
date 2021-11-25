@@ -1,8 +1,8 @@
-const statusCode = require('http-status-codes').StatusCodes;
+const StatusCodes = require('http-status-codes').StatusCodes;
 
 module.exports = async (err, _req, res, _next) => {
   if (err.isJoi) {
-    return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: err.details[0].message,
@@ -11,7 +11,7 @@ module.exports = async (err, _req, res, _next) => {
   }
 
   if (err === 'existingProduct') {
-    return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: 'Product already exists',
@@ -20,7 +20,7 @@ module.exports = async (err, _req, res, _next) => {
   }
 
   if (err === 'noProduct') {
-    return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong id format',
@@ -29,7 +29,7 @@ module.exports = async (err, _req, res, _next) => {
   }
 
   if (err === 'invalidSale') {
-    return res.status(statusCode.UNPROCESSABLE_ENTITY).json({
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
       err: {
         code: 'invalid_data',
         message: 'Wrong product ID or invalid quantity',
@@ -38,7 +38,7 @@ module.exports = async (err, _req, res, _next) => {
   }
 
   if (err === 'noSale') {
-    return res.status(statusCode.NOT_FOUND).json({
+    return res.status(StatusCodes.NOT_FOUND).json({
       err: {
         code: 'not_found',
         message: 'Sale not found',
@@ -46,6 +46,15 @@ module.exports = async (err, _req, res, _next) => {
     });
   }
 
+  if (err === 'noSaleId') {
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+      err: {
+        code: 'invalid_data',
+        message: 'Wrong sale ID format',
+      },
+    });
+  }
+
   console.log(err);
-  return res.status(statusCode.INTERNAL_SERVER_ERROR).end();
+  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
 };

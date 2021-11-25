@@ -5,6 +5,7 @@ const {
   findAll,
   findById,
   updateSaleById,
+  deleteById,
 } = require('../models/entity')('sales');
 
 const checkSaleData = async (sales) => {
@@ -55,9 +56,20 @@ const updateSales = async (id, newData) => {
   return updatedSale;
 };
 
+const deleteSale = async (id) => {
+  const saleDeleted = await listSaleById(id);
+  if (!saleDeleted) return { error: 'noSaleId' };
+
+  const deletedSale = await deleteById(id);
+  if (!deletedSale) return { error: 'noSaleId' };
+
+  return saleDeleted;
+};
+
 module.exports = {
   registerSales,
   listAllSales,
   listSaleById,
   updateSales,
+  deleteSale,
 };
