@@ -37,6 +37,15 @@ module.exports = async (err, _req, res, _next) => {
     });
   }
 
+  if (err === 'noSale') {
+    return res.status(statusCode.NOT_FOUND).json({
+      err: {
+        code: 'not_found',
+        message: 'Sale not found',
+      },
+    });
+  }
+
   console.log(err);
   return res.status(statusCode.INTERNAL_SERVER_ERROR).end();
 };

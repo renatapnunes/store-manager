@@ -2,7 +2,8 @@ const productSchema = require('../schemas/productSchema');
 const {
   create,
   findByName,
-  findAll, findById,
+  findAll,
+  findById,
   updateById,
   deleteById,
 } = require('../models/entity')('products');
