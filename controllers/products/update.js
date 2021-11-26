@@ -1,12 +1,16 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 const productService = require('../../services/productsService');
 
 module.exports = async (req, res, next) => {
-  const id = req.params;
-  const newData = req.body;
-
-  const updatedProduct = await productService.updateProduct(id, newData);
-  if ('error' in updatedProduct) return next(updatedProduct.error);
+  try {
+    const id = req.params;
+    const newData = req.body;
   
-  return res.status(StatusCodes.OK).send(updatedProduct);
+    const updatedProduct = await productService.updateProduct(id, newData);
+    if ('error' in updatedProduct) return next(updatedProduct.error);
+    
+    return res.status(StatusCodes.OK).send(updatedProduct);
+  } catch (err) {
+    next(err);
+  }
 };

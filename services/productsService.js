@@ -1,4 +1,5 @@
 const productSchema = require('../schemas/productSchema');
+const { existingProduct, noProduct } = require('../utils/errors');
 const {
   create,
   findByName,
@@ -15,8 +16,8 @@ const createProduct = async (product) => {
   const { error } = productSchema.validate(product);
   if (error) return { error };
 
-  const existingProduct = await findByName(product);
-  if (existingProduct) return { error: 'existingProduct' };
+  const productFound = await findByName(product);
+  if (productFound) return { error: existingProduct };
   
   const newProduct = await create(product);
 
@@ -25,14 +26,14 @@ const createProduct = async (product) => {
 
 const listAllProducts = async () => {
   const productList = await findAll();
-  if (!productList) return { error: 'noProduct' };
+  if (!productList) return { error: noProduct };
 
   return productList;
 };
 
 const listProductById = async (id) => {
   const product = await findById(id);
-  if (!product) return { error: 'noProduct' };
+  if (!product) return { error: noProduct };
 
   return product;
 };
@@ -42,7 +43,7 @@ const updateProduct = async (id, newData) => {
   if (error) return { error };
 
   let updatedProduct = await updateProductById(id, newData);
-  if (!updatedProduct) return { error: 'noProduct' };
+  if (!updatedProduct) return { error: noProduct };
 
   updatedProduct = await listProductById(id);
 
@@ -51,10 +52,10 @@ const updateProduct = async (id, newData) => {
 
 const deleteProduct = async (id) => {
   const productDeleted = await listProductById(id);
-  if (!productDeleted) return { error: 'noProduct' };
+  if (!productDeleted) return { error: noProduct };
 
   const deletedProduct = await deleteById(id);
-  if (!deletedProduct) return { error: 'noProduct' };
+  if (!deletedProduct) return { error: noProduct };
 
   return productDeleted;
 };

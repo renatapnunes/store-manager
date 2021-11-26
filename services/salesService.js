@@ -1,4 +1,5 @@
 const salesSchema = require('../schemas/salesSchema');
+const { invalidSale, noSale, noSaleId } = require('../utils/errors');
 const { listProductById } = require('./productsService');
 const {
   create,
@@ -23,7 +24,7 @@ const checkSaleData = async (sales) => {
 
 const registerSales = async (sales) => {
   const salesDataChecked = await checkSaleData(sales);
-  if (!salesDataChecked) return { error: 'invalidSale' };
+  if (!salesDataChecked) return { error: invalidSale };
   
   const registeredSale = await create({ itensSold: sales });
   
@@ -32,24 +33,24 @@ const registerSales = async (sales) => {
 
 const listAllSales = async () => {
   const saleList = await findAll();
-  if (!saleList) return { error: 'noSale' };
+  if (!saleList) return { error: noSale };
 
   return saleList;
 };
 
 const listSaleById = async (id) => {
   const sale = await findById(id);
-  if (!sale) return { error: 'noSale' };
+  if (!sale) return { error: noSale };
 
   return sale;
 };
 
 const updateSales = async (id, newData) => {
   const salesDataChecked = await checkSaleData(newData);
-  if (!salesDataChecked) return { error: 'invalidSale' };
+  if (!salesDataChecked) return { error: invalidSale };
 
   let updatedSale = await updateSaleById(id, newData);
-  if (!updatedSale) return { error: 'invalidSale' };
+  if (!updatedSale) return { error: invalidSale };
 
   updatedSale = await listSaleById(id);
 
@@ -58,10 +59,10 @@ const updateSales = async (id, newData) => {
 
 const deleteSale = async (id) => {
   const saleDeleted = await listSaleById(id);
-  if (!saleDeleted) return { error: 'noSaleId' };
+  if (!saleDeleted) return { error: noSaleId };
 
   const deletedSale = await deleteById(id);
-  if (!deletedSale) return { error: 'noSaleId' };
+  if (!deletedSale) return { error: noSaleId };
 
   return saleDeleted;
 };
